@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
+    path: Assets/Scenes/DatasetViewer.unity
+    guid: 2d04bfc070bcc924ab8989ece2ce2d80
+  - enabled: 1
     path: Assets/Scenes/MarksAR.unity
     guid: 041f71d912dc0454d955e45cc2ced2b0
   m_configObjects: {}
