@@ -1,5 +1,12 @@
 fileFormatVersion: 2
 guid: 22eb7c4ce33ed974fa99aaf076c78f66
+AssetOrigin:
+  serializedVersion: 1
+  productId: 163598
+  packageName: Vuforia Engine
+  packageVersion: 11.4.4
+  assetPath: Assets/SamplesResources/AugmentationAssets/Textures/Astronaut/Astronaut_Albedo.png
+  uploadId: 787602
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -21,7 +28,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 0
+  isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -180,10 +187,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 163598
-  packageName: Vuforia Engine
-  packageVersion: 11.4.4
-  assetPath: Assets/SamplesResources/AugmentationAssets/Textures/Astronaut/Astronaut_Albedo.png
-  uploadId: 787602
