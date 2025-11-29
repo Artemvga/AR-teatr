@@ -3,12 +3,15 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Trigger_First
+  - Trigger_Second
+  - Trigger_Third
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - ARSurface
   - Water
   - UI
   - 

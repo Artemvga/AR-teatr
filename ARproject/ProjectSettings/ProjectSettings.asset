@@ -878,7 +878,7 @@ PlayerSettings:
   webGLCloseOnQuit: 0
   webWasm2023: 0
   scriptingDefineSymbols:
-    Android: VUFORIA_ANDROID_SETTINGS;DOTWEEN;UNITY_POST_PROCESSING_STACK_V2
+    Android: VUFORIA_ANDROID_SETTINGS;DOTWEEN;UNITY_POST_PROCESSING_STACK_V2;VLB_BUILTIN
     EmbeddedLinux: DOTWEEN;UNITY_POST_PROCESSING_STACK_V2
     GameCoreScarlett: DOTWEEN;UNITY_POST_PROCESSING_STACK_V2
     GameCoreXboxOne: DOTWEEN;UNITY_POST_PROCESSING_STACK_V2
@@ -1089,7 +1089,7 @@ PlayerSettings:
   qnxGraphicConfPath: 
   apiCompatibilityLevel: 3
   captureStartupLogs: {}
-  activeInputHandler: 1
+  activeInputHandler: 2
   windowsGamepadBackendHint: 0
   cloudProjectId: deb0ffdf-d57d-4a55-802e-7787c287849f
   framebufferDepthMemorylessMode: 0
