@@ -1,53 +1,29 @@
-﻿// ImageLoader.cs
-// Загружает 9 изображений из активного датасета и назначает их на Renderer поверх ImageTarget
-
+// Assets/Scripts/AR/ImageLoader.cs
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class ImageLoader : MonoBehaviour
 {
-    [Header("Renderers (на ImageTarget'ах)")]
-    public Renderer[] renderers = new Renderer[9]; // 9 Renderer'ов, каждый поверх ImageTarget
+    public RawImage[] arMarkers = new RawImage[7];
 
     void Start()
     {
-        DatasetManager.LoadActiveDataset((dataset) =>
-        {
-            if (dataset == null)
-            {
-                Debug.Log("Используется дефолтный набор меток.");
-                return;
-            }
-
-            for (int i = 0; i < 9; i++)
-            {
-                StartCoroutine(LoadImage(dataset.marks[i], renderers[i]));
-            }
+        DatasetManager.LoadActiveDataset(dataset => {
+            if (dataset == null) return;
+            for (int i = 0; i < 7; i++)
+                StartCoroutine(Load(dataset.marks[i], arMarkers[i]));
         });
     }
 
-    IEnumerator LoadImage(string relativeUrl, Renderer targetRenderer)
+    IEnumerator Load(string url, RawImage target)
     {
-        string fullUrl = CloudAPI.BaseUrl + relativeUrl;
-        using (UnityWebRequest req = UnityWebRequestTexture.GetTexture(fullUrl))
+        using (var req = UnityWebRequestTexture.GetTexture(CloudAPI.BaseUrl + url))
         {
             yield return req.SendWebRequest();
-
             if (req.result == UnityWebRequest.Result.Success)
-            {
-                Texture2D texture = ((DownloadHandlerTexture)req.downloadHandler).texture;
-
-                // Назначаем текстуру на Renderer
-                if (targetRenderer != null && targetRenderer.material != null)
-                {
-                    targetRenderer.material.mainTexture = texture;
-                }
-            }
-            else
-            {
-                Debug.LogError($"❌ Ошибка загрузки изображения: {fullUrl}");
-            }
+                target.texture = ((DownloadHandlerTexture)req.downloadHandler).texture;
         }
     }
 }
