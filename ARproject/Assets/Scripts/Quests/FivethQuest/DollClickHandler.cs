@@ -8,7 +8,11 @@ public class DollClickHandler : MonoBehaviour
     {
         if (formationController != null)
         {
-            formationController.OnDollClicked();
+            formationController.OnDollClicked(transform);
+        }
+        else
+        {
+            Debug.LogError("FormationController не назначен на кукле: " + name);
         }
     }
 }

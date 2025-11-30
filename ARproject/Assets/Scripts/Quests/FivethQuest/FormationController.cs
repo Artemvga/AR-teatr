@@ -1,81 +1,105 @@
-using System.Collections.Generic;
+п»їusing System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
 public class FormationController : MonoBehaviour
 {
-    [Header("Куклы")]
+    [Header("РљСѓРєР»С‹")]
     public List<Transform> dolls = new List<Transform>();
 
-    [Header("Точки назначения (по порядку)")]
+    [Header("РўРѕС‡РєРё РЅР°Р·РЅР°С‡РµРЅРёСЏ (РїРѕ РїРѕСЂСЏРґРєСѓ)")]
     public List<Transform> targetPoints = new List<Transform>();
 
-    [Header("Панель, которая появляется после построения")]
+    [Header("РџР°РЅРµР»СЊ, РєРѕС‚РѕСЂР°СЏ РїРѕСЏРІР»СЏРµС‚СЃСЏ РїРѕСЃР»Рµ РїРѕСЃС‚СЂРѕРµРЅРёСЏ")]
     public GameObject resultPanel;
 
-    [Header("Настройки анимации")]
+    [Header("РќР°СЃС‚СЂРѕР№РєРё Р°РЅРёРјР°С†РёРё")]
     public float moveDuration = 1f;
     public float rotationDuration = 0.8f;
     public Ease moveEase = Ease.OutBack;
     public Ease rotationEase = Ease.OutSine;
 
     private bool isFormationComplete = false;
+    private bool isAnimating = false; // <<< РќРћР’Р«Р™ Р¤Р›РђР“
+    private int nextTargetIndex = 0;
+
+    // РћС‚СЃР»РµР¶РёРІР°РµРј, РєР°РєРёРµ РєСѓР±РёРєРё СѓР¶Рµ Р·Р°РЅСЏС‚С‹
+    private Dictionary<Transform, bool> dollOccupied = new Dictionary<Transform, bool>();
 
     private void Start()
     {
         if (resultPanel != null)
             resultPanel.SetActive(false);
         else
-            Debug.LogWarning("ResultPanel не назначена в инспекторе.");
-    }
+            Debug.LogWarning("ResultPanel РЅРµ РЅР°Р·РЅР°С‡РµРЅР°.");
 
-    public void OnDollClicked()
-    {
-        if (isFormationComplete)
-        {
-            // Игнорировать клики после завершения построения
-            return;
-        }
-
-        ArrangeDollsInFormation();
-    }
-
-    private void ArrangeDollsInFormation()
-    {
-        if (dolls.Count != targetPoints.Count)
-        {
-            Debug.LogError("Количество кукол не совпадает с количеством точек назначения.");
-            return;
-        }
-
-        isFormationComplete = true;
-
-        // Отключаем обработчики кликов у всех кукол
         foreach (var doll in dolls)
         {
+            dollOccupied[doll] = false;
             var handler = doll.GetComponent<DollClickHandler>();
-            if (handler != null)
-                handler.enabled = false;
+            if (handler == null)
+                handler = doll.gameObject.AddComponent<DollClickHandler>();
+            handler.formationController = this;
         }
+    }
 
-        // Анимируем каждую куклу
-        for (int i = 0; i < dolls.Count; i++)
+    public void OnDollClicked(Transform clickedDoll)
+    {
+        if (isFormationComplete) return;
+
+        // <<< Р‘Р›РћРљРР РЈР•Рњ РљР›РРљР Р’Рћ Р’Р Р•РњРЇ РђРќРРњРђР¦РР
+        if (isAnimating)
         {
-            Transform doll = dolls[i];
-            Transform target = targetPoints[i];
-
-            Vector3 targetPos = target.position;
-            Quaternion targetRot = Quaternion.LookRotation(target.forward, Vector3.up);
-
-            doll.DOKill();
-
-            doll.DOMove(targetPos, moveDuration).SetEase(moveEase);
-            doll.DORotateQuaternion(targetRot, rotationDuration).SetEase(rotationEase);
+            Debug.Log("РџРѕРґРѕР¶РґРёС‚Рµ, РёРґРµС‚ Р°РЅРёРјР°С†РёСЏ РґСЂСѓРіРѕРіРѕ РєСѓР±РёРєР°.");
+            return;
         }
 
-        // Отложенный вызов показа панели после завершения анимации
-        Invoke(nameof(ShowResultPanel), moveDuration + 0.2f);
+        if (!dolls.Contains(clickedDoll))
+        {
+            Debug.LogError("РљР»РёРєРЅСѓС‚С‹Р№ РєСѓР±РёРє РЅРµ РІ СЃРїРёСЃРєРµ dolls!");
+            return;
+        }
+
+        if (dollOccupied[clickedDoll])
+        {
+            Debug.Log("РљСѓР±РёРє " + clickedDoll.name + " СѓР¶Рµ Р·Р°РЅСЏР» РїРѕР·РёС†РёСЋ.");
+            return;
+        }
+
+        if (nextTargetIndex >= targetPoints.Count)
+        {
+            Debug.LogWarning("Р’СЃРµ С‚РѕС‡РєРё СѓР¶Рµ Р·Р°РЅСЏС‚С‹.");
+            return;
+        }
+
+        // <<< Р’РљР›Р®Р§РђР•Рњ Р‘Р›РћРљРР РћР’РљРЈ
+        isAnimating = true;
+
+        Transform target = targetPoints[nextTargetIndex];
+        dollOccupied[clickedDoll] = true;
+
+        clickedDoll.DOKill();
+
+        Vector3 targetPos = target.position;
+        Quaternion targetRot = Quaternion.LookRotation(target.forward, Vector3.up);
+
+        // РђРЅРёРјР°С†РёРё
+        clickedDoll.DOMove(targetPos, moveDuration).SetEase(moveEase);
+        clickedDoll.DORotateQuaternion(targetRot, rotationDuration).SetEase(rotationEase);
+
+        // <<< РћРўРљР›Р®Р§РђР•Рњ Р‘Р›РћРљРР РћР’РљРЈ РїРѕСЃР»Рµ Р·Р°РІРµСЂС€РµРЅРёСЏ
+        DOVirtual.DelayedCall(moveDuration + 0.1f, () =>
+        {
+            isAnimating = false;
+            nextTargetIndex++;
+
+            if (nextTargetIndex >= targetPoints.Count)
+            {
+                isFormationComplete = true;
+                ShowResultPanel();
+            }
+        });
     }
 
     private void ShowResultPanel()
@@ -84,13 +108,11 @@ public class FormationController : MonoBehaviour
 
         resultPanel.SetActive(true);
 
-        // Анимация появления через прозрачность
         CanvasGroup canvasGroup = resultPanel.GetComponent<CanvasGroup>()
             ?? resultPanel.AddComponent<CanvasGroup>();
         canvasGroup.alpha = 0f;
         canvasGroup.DOFade(1f, 0.8f).SetEase(Ease.OutElastic);
 
-        // Анимация масштаба
         RectTransform rect = resultPanel.GetComponent<RectTransform>();
         if (rect != null)
         {

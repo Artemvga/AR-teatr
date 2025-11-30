@@ -20,5 +20,17 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameScene/3ThirdScene.unity
     guid: 06631e4d6994abb4ca654ce4a81427b8
+  - enabled: 1
+    path: Assets/Scenes/GameScene/4FourthScene.unity
+    guid: 1357c900a3dfa2c4a9e7b46a90d9ff10
+  - enabled: 1
+    path: Assets/Scenes/GameScene/5FivethScene.unity
+    guid: 9e38a09e4b421ed45806b436f6bfb556
+  - enabled: 1
+    path: Assets/Scenes/GameScene/6SixthScene.unity
+    guid: c308b115d7f21fe44ba34d1d1677d305
+  - enabled: 1
+    path: Assets/Scenes/Build.unity
+    guid: 590f1d76d079bf248b6bc5175abd461c
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
