@@ -13,7 +13,7 @@ public class DifferenceGameManager : MonoBehaviour
     public Button exitButton;
 
     private int _foundCount = 0;
-    private int _totalDifferences => differenceItems.Length;
+    private int _totalDifferences = 2;
 
     void Start()
     {

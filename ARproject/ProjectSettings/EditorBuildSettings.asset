@@ -28,9 +28,18 @@ EditorBuildSettings:
     guid: 9e38a09e4b421ed45806b436f6bfb556
   - enabled: 1
     path: Assets/Scenes/GameScene/6SixthScene.unity
-    guid: c308b115d7f21fe44ba34d1d1677d305
+    guid: f00805019877c66458765dc86fb28f69
   - enabled: 1
     path: Assets/Scenes/Build.unity
     guid: 590f1d76d079bf248b6bc5175abd461c
+  - enabled: 1
+    path: Assets/Scenes/Guide.unity
+    guid: 32e6cde6c33f9244f890c3000dea0994
+  - enabled: 1
+    path: Assets/Scenes/Human.unity
+    guid: 19594b619cfb04843978c81e502ea512
+  - enabled: 1
+    path: Assets/Scenes/LookModel/LookModel.unity
+    guid: 6e4ac3c58ce4db04d9c42d7383a983f6
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

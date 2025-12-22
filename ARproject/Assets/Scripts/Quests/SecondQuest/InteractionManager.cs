@@ -31,7 +31,6 @@ public class InteractionManager : MonoBehaviour
     [Header("Инструкции и пример")]
     public GameObject hintPanel;
     public TMP_Text hintText;
-    public GameObject exampleImage;
 
     private int surfaceLayerMask;
     private GameObject currentPlacedObject = null;
@@ -45,7 +44,6 @@ public class InteractionManager : MonoBehaviour
         backButton.onClick.AddListener(HideInfoPanel);
 
         UpdateHintText(); // Показываем начальную подсказку
-        if (exampleImage != null) exampleImage.SetActive(true);
 
         int layerIndex = LayerMask.NameToLayer("ARSurface");
         surfaceLayerMask = layerIndex == -1 ? Physics.AllLayers : (1 << layerIndex);
@@ -133,7 +131,6 @@ public class InteractionManager : MonoBehaviour
             {
                 // ВСЁ ГОТОВО — удаляем инструкции и пример
                 if (hintPanel != null) Destroy(hintPanel);
-                if (exampleImage != null) Destroy(exampleImage);
             }
             else
             {
